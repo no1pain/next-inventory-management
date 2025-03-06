@@ -21,3 +21,5 @@ export interface ProductSummaryProps {
   supplierCount: number;
   categoryCount: number;
 }
+
+export interface SalesAndPurchaseProps {}

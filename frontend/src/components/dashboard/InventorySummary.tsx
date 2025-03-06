@@ -13,12 +13,14 @@ const InventorySummary: React.FC = () => {
 
   const items = [
     {
-      icon: <Inventory2OutlinedIcon sx={{ color: "#f97316" }} />,
+      icon: <Inventory2OutlinedIcon sx={{ color: "#f97316", fontSize: 32 }} />,
       label: "Quantity in Hand",
       value: data.quantityInHand,
     },
     {
-      icon: <LocalShippingOutlinedIcon sx={{ color: "#8b5cf6" }} />,
+      icon: (
+        <LocalShippingOutlinedIcon sx={{ color: "#8b5cf6", fontSize: 32 }} />
+      ),
       label: "To be received",
       value: data.toBeReceived,
     },
@@ -33,43 +35,47 @@ const InventorySummary: React.FC = () => {
         boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1)",
       }}
     >
-      <CardContent sx={{ height: "100%" }}>
+      <CardContent sx={{ height: "100%", p: 2.5 }}>
         <Typography
           variant="h6"
           sx={{
-            fontSize: "1.25rem",
+            fontSize: "1.1rem",
             fontWeight: 500,
             color: "text.primary",
-            mb: 3,
+            mb: 2.5,
+            ml: 5,
           }}
         >
           Inventory Summary
         </Typography>
-        <Grid container spacing={4}>
+        <Grid container spacing={3}>
           {items.map((item, index) => (
-            <Grid xs={6} key={index}>
-              <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+            <Grid xs={6} key={index} sx={{ textAlign: "center" }}>
+              <Box sx={{ display: "flex", justifyContent: "center", mb: 1.5 }}>
                 {item.icon}
               </Box>
-              <Typography
-                variant="body2"
-                sx={{
-                  color: "text.secondary",
-                  fontWeight: 400,
-                  mb: 1,
-                }}
-              >
-                {item.label}
-              </Typography>
               <Typography
                 variant="h6"
                 sx={{
                   fontWeight: 500,
-                  fontSize: "1.5rem",
+                  fontSize: "1.25rem",
                   color: "text.primary",
+                  mb: 0.5,
+                  textAlign: "center",
                 }}
               >
                 {item.value.toLocaleString()}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  color: "text.secondary",
+                  fontSize: "0.875rem",
+                  fontWeight: 400,
+                  textAlign: "center",
+                }}
+              >
+                {item.label}
               </Typography>
             </Grid>
           ))}

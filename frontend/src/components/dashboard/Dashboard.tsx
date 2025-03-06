@@ -4,9 +4,10 @@ import SalesOverview from "./SalesOverview";
 import InventorySummary from "./InventorySummary";
 import PurchaseOverview from "./PurchaseOverview";
 import ProductSummary from "./ProductSummary";
+import SalesAndPurchaseChart from "./SalesAndPurchaseChart";
 import { Box } from "@mui/material";
 
-const Dashboard: React.FC = () => {
+export default function Dashboard() {
   return (
     <Box sx={{ display: "flex", gap: 3 }}>
       {/* Left Column - 60% */}
@@ -15,8 +16,12 @@ const Dashboard: React.FC = () => {
           <Grid xs={12}>
             <SalesOverview />
           </Grid>
+
           <Grid xs={12}>
             <PurchaseOverview />
+          </Grid>
+          <Grid xs={12}>
+            <SalesAndPurchaseChart />
           </Grid>
         </Grid>
       </Box>
@@ -34,6 +39,4 @@ const Dashboard: React.FC = () => {
       </Box>
     </Box>
   );
-};
-
-export default Dashboard;
+}

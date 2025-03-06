@@ -2,25 +2,29 @@ import React from "react";
 import { Card, CardContent, Typography, Box } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import { ProductSummaryProps } from "./types";
-import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
+import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
 import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
 
-const ProductSummary: React.FC = () => {
-  const data: ProductSummaryProps = {
-    supplierCount: 31,
-    categoryCount: 21,
-  };
-
+const SalesAndPurchase: React.FC<ProductSummaryProps> = ({
+  supplierCount,
+  categoryCount,
+}) => {
   const items = [
     {
-      icon: <PeopleOutlineIcon sx={{ color: "#3b82f6", fontSize: 32 }} />,
-      label: "Number of Suppliers",
-      value: data.supplierCount,
+      icon: (
+        <LocalShippingOutlinedIcon
+          sx={{ fontSize: 40, color: "primary.main" }}
+        />
+      ),
+      value: supplierCount,
+      label: "Total Suppliers",
     },
     {
-      icon: <CategoryOutlinedIcon sx={{ color: "#8b5cf6", fontSize: 32 }} />,
-      label: "Number of Categories",
-      value: data.categoryCount,
+      icon: (
+        <CategoryOutlinedIcon sx={{ fontSize: 40, color: "primary.main" }} />
+      ),
+      value: categoryCount,
+      label: "Total Categories",
     },
   ];
 
@@ -83,4 +87,4 @@ const ProductSummary: React.FC = () => {
   );
 };
 
-export default ProductSummary;
+export default SalesAndPurchase;
