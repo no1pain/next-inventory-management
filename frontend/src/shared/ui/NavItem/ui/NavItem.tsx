@@ -1,9 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import React from "react";
+import { usePathname } from "next/navigation";
 
 interface NavItemProps {
-  href: any;
-  icon: any;
+  href: string;
+  icon: React.ReactNode;
   title: string;
   isActive?: boolean;
 }
@@ -12,8 +15,12 @@ export const NavItem: React.FC<NavItemProps> = ({
   href,
   icon,
   title,
-  isActive = false,
+  isActive: forcedIsActive,
 }) => {
+  const pathname = usePathname();
+  const isActive =
+    forcedIsActive !== undefined ? forcedIsActive : pathname === href;
+
   return (
     <li>
       <Link

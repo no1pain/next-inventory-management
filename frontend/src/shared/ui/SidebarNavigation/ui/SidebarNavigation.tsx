@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { NavItem } from "../../NavItem/ui/NavItem";
 import Image from "next/image";
@@ -5,13 +7,13 @@ import Image from "next/image";
 const SidebarNavigation = () => {
   return (
     <div>
-      <div className="mb-4 flex flex-col items-center">
+      <div className="mb-6 flex flex-col items-center">
         <div className="flex items-center gap-2 mb-5">
           <Image
             src="/images/sidebar-logo.png"
             alt="Inventory Management Logo"
             width={1000}
-            height={48}
+            height={40}
           />
         </div>
       </div>
@@ -26,11 +28,9 @@ const SidebarNavigation = () => {
                 alt="Dashboard"
                 width={24}
                 height={24}
-                className="text-blue-500"
               />
             }
             title="Dashboard"
-            isActive={true}
           />
           <NavItem
             href="/inventory"

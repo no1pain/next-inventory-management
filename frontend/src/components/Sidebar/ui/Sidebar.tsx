@@ -1,3 +1,5 @@
+"use client";
+
 import SidebarNavigation from "@/shared/ui/SidebarNavigation/ui/SidebarNavigation";
 import SidebarSettings from "@/shared/ui/SidebarSettings/ui/SidebarSettings";
 
