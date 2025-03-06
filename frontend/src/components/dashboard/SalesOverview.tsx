@@ -7,6 +7,17 @@ import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 
+// Format number to K, M format (e.g., 10K, 1.5M)
+const formatNumber = (num: number): string => {
+  if (num >= 1000000) {
+    return `${(num / 1000000).toFixed(1)}M`;
+  }
+  if (num >= 1000) {
+    return `${(num / 1000).toFixed(0)}K`;
+  }
+  return num.toString();
+};
+
 const SalesOverview: React.FC = () => {
   const data: SalesOverviewProps = {
     sales: 832,
@@ -82,7 +93,7 @@ const SalesOverview: React.FC = () => {
                   textAlign: "center",
                 }}
               >
-                ₹ {item.value.toLocaleString()}
+                ₹ {formatNumber(item.value)}
               </Typography>
               <Typography
                 variant="body2"

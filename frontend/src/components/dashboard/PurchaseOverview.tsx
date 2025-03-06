@@ -7,6 +7,17 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import AssignmentReturnOutlinedIcon from "@mui/icons-material/AssignmentReturnOutlined";
 
+// Format number to K, M format (e.g., 10K, 1.5M)
+const formatNumber = (num: number): string => {
+  if (num >= 1000000) {
+    return `${(num / 1000000).toFixed(1)}M`;
+  }
+  if (num >= 1000) {
+    return `${(num / 1000).toFixed(0)}K`;
+  }
+  return num.toString();
+};
+
 const PurchaseOverview: React.FC = () => {
   const data: PurchaseOverviewProps = {
     purchaseCount: 82,
@@ -20,23 +31,27 @@ const PurchaseOverview: React.FC = () => {
       icon: <ShoppingBagOutlinedIcon sx={{ color: "#3b82f6", fontSize: 32 }} />,
       label: "Purchase",
       value: data.purchaseCount,
+      isMonetary: false,
     },
     {
       icon: <HomeOutlinedIcon sx={{ color: "#10b981", fontSize: 32 }} />,
       label: "Cost",
-      value: `₹${data.cost}`,
+      value: data.cost,
+      isMonetary: true,
     },
     {
       icon: <CancelOutlinedIcon sx={{ color: "#6366f1", fontSize: 32 }} />,
       label: "Cancel",
       value: data.cancelCount,
+      isMonetary: false,
     },
     {
       icon: (
         <AssignmentReturnOutlinedIcon sx={{ color: "#f97316", fontSize: 32 }} />
       ),
       label: "Return",
-      value: `₹${data.returnAmount}`,
+      value: data.returnAmount,
+      isMonetary: true,
     },
   ];
 
@@ -78,7 +93,9 @@ const PurchaseOverview: React.FC = () => {
                   textAlign: "center",
                 }}
               >
-                {item.value}
+                {item.isMonetary
+                  ? `₹${formatNumber(item.value)}`
+                  : formatNumber(item.value)}
               </Typography>
               <Typography
                 variant="body2"
