@@ -5,6 +5,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import connectDB from "./db/connection.js";
 import userRoutes from "./routes/userRoutes.js";
+import inventoryRoutes from "./routes/inventoryRoutes.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -13,12 +14,23 @@ dotenv.config({ path: path.resolve(__dirname, "./.env") });
 
 const app = express();
 
-app.use(cors());
+// Configure CORS
+app.use(
+  cors({
+    origin:
+      process.env.NODE_ENV === "production"
+        ? "https://your-production-domain.com"
+        : "http://localhost:3000",
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 
 connectDB();
 
 app.use("/api/auth", userRoutes);
+app.use("/api/inventory", inventoryRoutes);
 
 app.get("/api", (req, res) => {
   res.send("API is running");

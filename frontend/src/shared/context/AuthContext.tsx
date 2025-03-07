@@ -7,20 +7,29 @@ import React, {
   useEffect,
   ReactNode,
 } from "react";
+import axios from "axios";
 
 interface AuthContextType {
   isAuthenticated: boolean;
-  login: (email: string, password: string) => Promise<void>;
+  login: (username: string, password: string) => Promise<void>;
   logout: () => void;
   user: User | null;
 }
 
 interface User {
-  id: string;
-  name: string;
+  userId: string;
+  username: string;
   email: string;
-  avatar?: string;
 }
+
+interface LoginResponse {
+  message: string;
+  userId: string;
+  username: string;
+  email: string;
+}
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -28,7 +37,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<User | null>(null);
 
-  // Check if user is already logged in (e.g., from localStorage)
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -43,26 +51,29 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, []);
 
-  const login = async (email: string, password: string) => {
-    // This is a mock implementation for now
-    // In a real app, you would call your API here
+  const login = async (username: string, password: string) => {
+    try {
+      const response = await axios.post<LoginResponse>(
+        `${API_URL}/auth/login`,
+        {
+          username,
+          password,
+        }
+      );
 
-    // Simulate API call delay
-    await new Promise((resolve) => setTimeout(resolve, 500));
+      const userData = {
+        userId: response.data.userId,
+        username: response.data.username,
+        email: response.data.email,
+      };
 
-    // Mock user data
-    const mockUser = {
-      id: "1",
-      name: "John Doe",
-      email: email,
-      avatar: "https://randomuser.me/api/portraits/men/32.jpg",
-    };
+      localStorage.setItem("user", JSON.stringify(userData));
 
-    // Store user in localStorage
-    localStorage.setItem("user", JSON.stringify(mockUser));
-
-    setUser(mockUser);
-    setIsAuthenticated(true);
+      setUser(userData);
+      setIsAuthenticated(true);
+    } catch (error: any) {
+      throw error;
+    }
   };
 
   const logout = () => {
