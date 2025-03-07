@@ -9,13 +9,34 @@ import { useRouter } from "next/navigation";
 
 const SidebarSettings = () => {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
-  const { logout } = useAuth();
+  const { logout, isAuthenticated } = useAuth();
   const router = useRouter();
 
   const handleLogout = () => {
-    logout();
+    if (isAuthenticated) {
+      logout();
+    }
     router.push("/login");
   };
+
+  const getModalContent = () => {
+    if (isAuthenticated) {
+      return {
+        title: "Confirm Logout",
+        message: "Are you sure you want to log out?",
+        confirmText: "Log Out",
+      };
+    } else {
+      return {
+        title: "Not Logged In",
+        message:
+          "You are not currently logged in. Would you like to go to the login page?",
+        confirmText: "Go to Login",
+      };
+    }
+  };
+
+  const modalContent = getModalContent();
 
   return (
     <div className="mt-auto">
@@ -54,9 +75,9 @@ const SidebarSettings = () => {
         isOpen={isLogoutModalOpen}
         onClose={() => setIsLogoutModalOpen(false)}
         onConfirm={handleLogout}
-        title="Confirm Logout"
-        message="Are you sure you want to log out?"
-        confirmText="Log Out"
+        title={modalContent.title}
+        message={modalContent.message}
+        confirmText={modalContent.confirmText}
         cancelText="Cancel"
       />
     </div>

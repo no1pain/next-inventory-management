@@ -4,6 +4,8 @@ import "./globals.css";
 import { AuthProvider } from "@/shared/context/AuthContext";
 import { Sidebar } from "@/components/Sidebar";
 import { Header } from "@/components/Header";
+import { AuthBanner } from "@/components/AuthBanner";
+import { AuthContent } from "@/components/AuthContent";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,13 +23,18 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <AuthProvider>
-          <div className="flex h-screen">
-            <Sidebar />
-            <div className="flex-1 flex flex-col overflow-hidden">
-              <Header />
-              <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50">
-                {children}
-              </main>
+          <div className="flex flex-col h-screen">
+            <AuthBanner />
+            <div className="flex flex-1">
+              <Sidebar />
+              <div className="flex-1 flex flex-col overflow-hidden">
+                <Header />
+                <AuthContent>
+                  <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50">
+                    {children}
+                  </main>
+                </AuthContent>
+              </div>
             </div>
           </div>
         </AuthProvider>
