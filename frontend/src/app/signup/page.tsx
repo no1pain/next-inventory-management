@@ -31,20 +31,16 @@ export default function SignUp() {
     setIsLoading(true);
 
     try {
-      // Validate form data
       await userSchema.validate(formData);
 
       try {
-        // Attempt to sign up
         await signup(formData.username, formData.email, formData.password);
         console.log("Signup successful");
 
-        // Redirect to inventory after successful signup
         router.push("/inventory");
       } catch (error: any) {
         console.error("Error creating user:", error);
 
-        // Extract error message from response if available
         const errorMessage =
           error.response?.data?.message ||
           error.message ||
@@ -53,7 +49,6 @@ export default function SignUp() {
         setError(errorMessage);
       }
     } catch (error: any) {
-      // Handle validation errors
       if (error instanceof ValidationError) {
         setError(error.errors.join("\n"));
       } else {

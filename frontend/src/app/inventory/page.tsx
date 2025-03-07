@@ -227,7 +227,7 @@ export default function InventoryPage() {
                   {inventoryStats.topSelling.period}
                 </p>
               </div>
-              <div>
+              <div className="mr-6">
                 <p className="text-2xl font-bold">
                   {inventoryStats.topSelling.cost}
                 </p>
