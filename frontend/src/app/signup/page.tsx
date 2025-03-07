@@ -6,13 +6,18 @@ import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import userSchema from "@/shared/api/validation/signUpSchema";
 import { ValidationError } from "yup";
+import { authService } from "@/shared/api/auth.service";
+import { useRouter } from "next/navigation";
 
 export default function SignUp() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
   });
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -21,38 +26,46 @@ export default function SignUp() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
+    setIsLoading(true);
 
     try {
+      // Validate form data
       await userSchema.validate(formData);
 
       try {
-        const response = await axios.post("api/auth/signup", formData);
+        // Attempt to sign up
+        const response = await authService.signup(formData);
+        console.log("Signup successful:", response);
 
-        if (response.status === 201) {
-          console.log("User created successfully");
-        } else {
-          console.error(
-            "Signup failed:",
-            (response.data as { message: string }).message
-          );
-        }
-      } catch (error) {
-        console.error("Error creating user", error);
+        // Redirect to dashboard after successful signup
+        router.push("/");
+      } catch (error: any) {
+        console.error("Error creating user:", error);
+
+        // Extract error message from response if available
+        const errorMessage =
+          error.response?.data?.message ||
+          error.message ||
+          "Failed to create account. Please try again.";
+
+        setError(errorMessage);
       }
     } catch (error: any) {
-      if (error.name === "ValidationError") {
-        const errorMessages = error.errors.join("\n");
-        console.error("Validation errors:", errorMessages);
-        alert(errorMessages);
+      // Handle validation errors
+      if (error instanceof ValidationError) {
+        setError(error.errors.join("\n"));
       } else {
-        console.error("Validation error:", error.message);
-        alert("An error occurred during validation.");
+        setError("An error occurred during validation.");
+        console.error("Validation error:", error);
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900 p-4">
+    <div className="min-h-screen flex items-center justify-center p-4">
       <div className="bg-white rounded-lg w-full max-w-md p-8">
         <div className="flex flex-col items-center mb-8">
           <div className="w-24 h-24 relative mb-4">
@@ -78,10 +91,16 @@ export default function SignUp() {
           Start your 30-day free trial.
         </p>
 
+        {error && (
+          <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-md">
+            {error}
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label
-              htmlFor="name"
+              htmlFor="username"
               className="block text-sm font-medium text-gray-700 mb-1"
             >
               Username<span className="text-red-500">*</span>
@@ -95,6 +114,7 @@ export default function SignUp() {
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={formData.username}
               onChange={handleChange}
+              disabled={isLoading}
             />
           </div>
 
@@ -114,6 +134,7 @@ export default function SignUp() {
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={formData.email}
               onChange={handleChange}
+              disabled={isLoading}
             />
           </div>
 
@@ -133,6 +154,7 @@ export default function SignUp() {
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={formData.password}
               onChange={handleChange}
+              disabled={isLoading}
             />
             <p className="text-xs text-gray-500 mt-1">
               Must be at least 8 characters.
@@ -141,17 +163,18 @@ export default function SignUp() {
 
           <button
             type="submit"
-            onClick={handleSubmit}
-            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            disabled={isLoading}
+            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed"
           >
-            Get started
+            {isLoading ? "Creating account..." : "Get started"}
           </button>
         </form>
 
         <div className="mt-4">
           <button
             type="button"
-            className="w-full flex items-center justify-center gap-2 border border-gray-300 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            disabled={isLoading}
+            className="w-full flex items-center justify-center gap-2 border border-gray-300 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed"
           >
             <FcGoogle size={20} />
             Sign up with Google
