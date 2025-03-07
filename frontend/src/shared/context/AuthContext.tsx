@@ -12,6 +12,7 @@ import axios from "axios";
 interface AuthContextType {
   isAuthenticated: boolean;
   login: (username: string, password: string) => Promise<void>;
+  signup: (username: string, email: string, password: string) => Promise<void>;
   logout: () => void;
   user: User | null;
 }
@@ -76,6 +77,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const signup = async (username: string, email: string, password: string) => {
+    try {
+      const response = await axios.post(`${API_URL}/auth/signup`, {
+        username,
+        email,
+        password,
+      });
+
+      // After successful signup, automatically log in
+      await login(username, password);
+    } catch (error: any) {
+      throw error;
+    }
+  };
+
   const logout = () => {
     localStorage.removeItem("user");
     setUser(null);
@@ -83,7 +99,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout, user }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, login, signup, logout, user }}
+    >
       {children}
     </AuthContext.Provider>
   );

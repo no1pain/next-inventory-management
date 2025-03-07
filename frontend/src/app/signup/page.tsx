@@ -6,11 +6,12 @@ import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import userSchema from "@/shared/api/validation/signUpSchema";
 import { ValidationError } from "yup";
-import { authService } from "@/shared/api/auth.service";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/shared/context/AuthContext";
 
 export default function SignUp() {
   const router = useRouter();
+  const { signup } = useAuth();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -35,11 +36,11 @@ export default function SignUp() {
 
       try {
         // Attempt to sign up
-        const response = await authService.signup(formData);
-        console.log("Signup successful:", response);
+        await signup(formData.username, formData.email, formData.password);
+        console.log("Signup successful");
 
-        // Redirect to dashboard after successful signup
-        router.push("/");
+        // Redirect to inventory after successful signup
+        router.push("/inventory");
       } catch (error: any) {
         console.error("Error creating user:", error);
 

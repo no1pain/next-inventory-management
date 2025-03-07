@@ -8,7 +8,7 @@ interface SignupData {
 }
 
 interface LoginData {
-  email: string;
+  username: string;
   password: string;
 }
 
@@ -20,6 +20,12 @@ interface AuthResponse {
     email: string;
     avatar?: string;
   };
+}
+
+interface LoginResponse {
+  userId: string;
+  username: string;
+  email: string;
 }
 
 // Mock implementation for development
@@ -60,18 +66,15 @@ export const authService = {
       }
 
       // Real implementation
-      const response = await apiClient.post<AuthResponse>(
-        API_ENDPOINTS.AUTH.SIGNUP,
-        data
-      );
+      const response = await apiClient.post(API_ENDPOINTS.AUTH.SIGNUP, data);
 
       console.log("Signup response:", response.data);
 
-      if (response.data.token) {
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem("user", JSON.stringify(response.data.user));
-      }
-      return response.data;
+      // After successful signup, automatically log in the user
+      return await this.login({
+        username: data.username,
+        password: data.password,
+      });
     } catch (error: any) {
       console.error("Signup error details:", {
         status: error.response?.status,
@@ -102,10 +105,10 @@ export const authService = {
           token: "mock-jwt-token-" + Math.random().toString(36).substring(2),
           user: {
             id: Math.random().toString(36).substring(2),
-            username: "user", // We don't have username in login data
-            email: data.email,
+            username: data.username,
+            email: data.username, // We don't have email in login data
             avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(
-              data.email
+              data.username
             )}&background=random`,
           },
         };
@@ -118,18 +121,25 @@ export const authService = {
       }
 
       // Real implementation
-      const response = await apiClient.post<AuthResponse>(
-        API_ENDPOINTS.AUTH.LOGIN,
-        data
-      );
+      const response = await apiClient.post(API_ENDPOINTS.AUTH.LOGIN, data);
 
       console.log("Login response:", response.data);
 
-      if (response.data.token) {
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem("user", JSON.stringify(response.data.user));
-      }
-      return response.data;
+      // Format the response to match our expected AuthResponse format
+      const responseData = response.data as LoginResponse;
+      const authResponse = {
+        token: "jwt-token", // Backend doesn't provide a token yet
+        user: {
+          id: responseData.userId,
+          username: responseData.username,
+          email: responseData.email,
+        },
+      };
+
+      localStorage.setItem("token", authResponse.token);
+      localStorage.setItem("user", JSON.stringify(authResponse.user));
+
+      return authResponse;
     } catch (error: any) {
       console.error("Login error details:", {
         status: error.response?.status,
