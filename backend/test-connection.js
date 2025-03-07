@@ -1,12 +1,17 @@
-require("dotenv").config();
-const mongoose = require("mongoose");
+import path from "path";
+import { fileURLToPath } from "url";
+import dotenv from "dotenv";
+import mongoose from "mongoose";
 
-const uri = process.env.MONGODB_URI;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+dotenv.config({ path: path.resolve(__dirname, "./.env") });
 
 async function connectToMongoDB() {
   try {
     console.log("Attempting to connect to MongoDB Atlas...");
-    await mongoose.connect(uri);
+    await mongoose.connect(process.env.MONGODB_URI);
     console.log("Successfully connected to MongoDB Atlas!");
 
     const collections = await mongoose.connection.db
