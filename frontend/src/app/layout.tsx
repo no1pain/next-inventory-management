@@ -1,15 +1,14 @@
-import { Montserrat } from "next/font/google";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
+import { AuthProvider } from "@/shared/context/AuthContext";
 import { Sidebar } from "@/components/Sidebar";
 import { Header } from "@/components/Header";
 
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  display: "swap",
-});
+const inter = Inter({ subsets: ["latin"] });
 
-export const metadata = {
-  title: "Inventory Management System",
+export const metadata: Metadata = {
+  title: "Kanban - Inventory Management",
   description: "Modern inventory management system",
 };
 
@@ -19,17 +18,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={montserrat.className}>
-      <body className={montserrat.className}>
-        <div className="flex h-screen">
-          <Sidebar />
-          <div className="flex-1 flex flex-col overflow-hidden">
-            <Header />
-            <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50">
-              {children}
-            </main>
+    <html lang="en">
+      <body className={inter.className}>
+        <AuthProvider>
+          <div className="flex h-screen">
+            <Sidebar />
+            <div className="flex-1 flex flex-col overflow-hidden">
+              <Header />
+              <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50">
+                {children}
+              </main>
+            </div>
           </div>
-        </div>
+        </AuthProvider>
       </body>
     </html>
   );

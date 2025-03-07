@@ -10,8 +10,10 @@ dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI);
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
+    const baseUri = process.env.MONGODB_URI.replace(/\/[^/]*$/, "");
+    const conn = await mongoose.connect(baseUri, {
+      dbName: process.env.MONGODB_DB_NAME,
+    });
     return conn;
   } catch (error) {
     console.error(`Error: ${error.message}`);

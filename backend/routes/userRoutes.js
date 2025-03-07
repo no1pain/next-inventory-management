@@ -6,27 +6,44 @@ const router = express.Router();
 
 router.post("/signup", async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { username, email, password } = req.body;
+    const existingUser = await User.findOne({
+      $or: [{ username: username }, { email: email }],
+    });
+
+    if (existingUser) {
+      return res.status(409).json({
+        message:
+          existingUser.email === email
+            ? "Email already registered"
+            : "Username already taken",
+      });
+    }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({
+      username,
+      email,
+      password: hashedPassword,
+    });
 
-    const newUser = new User({ username, password: hashedPassword });
     await newUser.save();
-
     res.status(201).json({ message: "User created successfully" });
   } catch (error) {
     if (error.code === 11000) {
-      res.status(409).json({ message: "Username already taken" });
+      return res
+        .status(409)
+        .json({ message: "Username or email already taken" });
     }
-
-    res.status(500).json({ message: "Error creating user" });
+    res
+      .status(500)
+      .json({ message: "Error creating user", error: error.message });
   }
 });
 
 router.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
-
     const user = await User.findOne({ username });
 
     if (!user) {
