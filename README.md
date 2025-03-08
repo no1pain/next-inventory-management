@@ -32,6 +32,25 @@ A modern, full-stack inventory management system built with Next.js, Express, an
 
 ## Getting Started
 
+## Branches
+
+This repository has two branches:
+
+1. **main** - Full-stack version with backend API integration
+2. **local-storage** - Frontend-only version using localStorage (no backend required)
+
+### Switching Branches
+
+To switch between branches, use:
+
+```bash
+# For the full-stack version with backend
+git checkout main
+
+# For the frontend-only version with localStorage
+git checkout local-storage
+```
+
 ### Prerequisites
 
 - Node.js 18+ installed
