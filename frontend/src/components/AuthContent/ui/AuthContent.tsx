@@ -14,7 +14,9 @@ export const AuthContent = ({ children }: AuthContentProps) => {
   const pathname = usePathname();
 
   // Don't apply blur effect on login and signup pages
-  const isAuthPage = pathname === "/login" || pathname === "/signup";
+  // Using startsWith to be more robust with path matching
+  const isAuthPage =
+    pathname?.startsWith("/login") || pathname?.startsWith("/signup");
 
   // If user is authenticated or on an auth page, just render children normally
   if (isAuthenticated || isAuthPage) {
