@@ -1,36 +1,92 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Inventory Management System
+
+This is an Inventory Management System built with Next.js, React, and TypeScript.
+
+## Branches
+
+This repository has two branches:
+
+1. **main** - Full-stack version with backend API integration
+2. **local-storage** - Frontend-only version using localStorage (current branch)
+
+### Switching Branches
+
+To switch between branches, use:
+
+```bash
+# For the full-stack version with backend
+git checkout main
+
+# For the frontend-only version with localStorage
+git checkout local-storage
+```
+
+## Features
+
+- User authentication (login/signup) using local storage
+- Inventory management (add, update, delete items)
+- Dashboard with inventory statistics
+- Responsive design for mobile and desktop
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+ and npm
+
+### Installation
+
+1. Clone the repository
+2. Navigate to the frontend directory:
+   ```bash
+   cd frontend
+   ```
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+### Running the Application
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The application will be available at [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Demo Account
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+You can use the following demo account to log in:
 
-## Learn More
+- Username: demo
+- Password: password123
 
-To learn more about Next.js, take a look at the following resources:
+## How It Works (local-storage branch)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This version of the application uses local storage to store data instead of a backend API. All data is stored in the browser's local storage, which means:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Data persists between browser sessions
+2. Data is not shared between different browsers or devices
+3. Clearing browser data will delete all stored information
 
-## Deploy on Vercel
+## Implementation Details
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **main branch**: Uses a backend API for data storage and authentication
+- **local-storage branch**:
+  - Authentication is simulated using local storage
+  - Inventory items are stored in local storage with a unique key for each user
+  - API calls have been replaced with local storage operations
+  - Network delays are simulated to provide a realistic experience
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Development
+
+This project is built with:
+
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+
+## License
+
+This project is licensed under the MIT License.

@@ -2,6 +2,25 @@
 
 A modern, full-stack inventory management system built with Next.js, Express, and MongoDB. This application provides a robust solution for managing inventory, tracking sales, and handling user authentication.
 
+## Branches
+
+This repository has two branches:
+
+1. **main** - Full-stack version with backend API integration
+2. **local-storage** - Frontend-only version using localStorage (no backend required)
+
+### Switching Branches
+
+To switch between branches, use:
+
+```bash
+# For the full-stack version with backend
+git checkout main
+
+# For the frontend-only version with localStorage
+git checkout local-storage
+```
+
 ## Features
 
 - 🔐 User Authentication (Login/Register)
@@ -23,7 +42,7 @@ A modern, full-stack inventory management system built with Next.js, Express, an
 - Axios for API calls
 - Yup for form validation
 
-### Backend
+### Backend (main branch only)
 
 - Node.js with Express
 - MongoDB with Mongoose
@@ -35,7 +54,7 @@ A modern, full-stack inventory management system built with Next.js, Express, an
 ### Prerequisites
 
 - Node.js 18+ installed
-- MongoDB Atlas account or local MongoDB installation
+- MongoDB Atlas account or local MongoDB installation (main branch only)
 - Git
 
 ### Installation
@@ -46,6 +65,8 @@ A modern, full-stack inventory management system built with Next.js, Express, an
 git clone <repository-url>
 cd next-inventory-management
 ```
+
+#### For main branch (full-stack)
 
 2. Install Backend Dependencies
 
@@ -78,7 +99,18 @@ npm install
 NEXT_PUBLIC_API_URL=http://localhost:5001/api
 ```
 
+#### For local-storage branch (frontend-only)
+
+2. Install Frontend Dependencies
+
+```bash
+cd frontend
+npm install
+```
+
 ### Running the Application
+
+#### For main branch (full-stack)
 
 1. Start the Backend Server
 
@@ -99,6 +131,26 @@ The application will be available at:
 - Frontend: http://localhost:3000
 - Backend API: http://localhost:5001
 
+#### For local-storage branch (frontend-only)
+
+1. Start the Frontend Development Server
+
+```bash
+cd frontend
+npm run dev
+```
+
+The application will be available at:
+
+- Frontend: http://localhost:3000
+
+## Demo Account (local-storage branch)
+
+You can use the following demo account to log in:
+
+- Username: demo
+- Password: password123
+
 ## Project Structure
 
 ### Frontend Structure
@@ -114,7 +166,7 @@ frontend/
 └── ...config files
 ```
 
-### Backend Structure
+### Backend Structure (main branch only)
 
 ```
 backend/
