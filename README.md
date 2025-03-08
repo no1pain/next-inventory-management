@@ -30,8 +30,6 @@ A modern, full-stack inventory management system built with Next.js, Express, an
 - JWT for authentication
 - Bcrypt for password hashing
 
-## Getting Started
-
 ## Branches
 
 This repository has two branches:
@@ -50,6 +48,8 @@ git checkout main
 # For the frontend-only version with localStorage
 git checkout local-storage
 ```
+
+## Getting Started
 
 ### Prerequisites
 
