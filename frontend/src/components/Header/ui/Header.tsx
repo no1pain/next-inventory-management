@@ -41,6 +41,7 @@ export const Header = () => {
                   <Image
                     src={
                       user?.avatar ||
+                      (user as any)?.image ||
                       "https://randomuser.me/api/portraits/men/32.jpg"
                     }
                     alt="User profile"
