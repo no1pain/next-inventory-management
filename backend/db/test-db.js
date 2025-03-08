@@ -10,9 +10,6 @@ dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
 async function testConnection() {
   try {
-    console.log("MongoDB URI:", process.env.MONGODB_URI);
-    console.log("Attempting to connect to MongoDB...");
-
     await mongoose.connect(process.env.MONGODB_URI);
 
     console.log("MongoDB connection successful!");
