@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/mongodb";
 import InventoryItem from "@/models/InventoryItem";
-import { getServerSession } from "next-auth/next";
+import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
 // GET /api/inventory - Get all inventory items for the current user

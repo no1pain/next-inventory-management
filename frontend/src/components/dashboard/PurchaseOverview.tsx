@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, CardContent, Typography, Box } from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2";
+import Grid from "@mui/material/Grid";
 import { PurchaseOverviewProps } from "./types";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";

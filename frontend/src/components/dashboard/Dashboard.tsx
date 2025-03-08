@@ -1,5 +1,5 @@
 import React from "react";
-import Grid from "@mui/material/Unstable_Grid2";
+import Grid from "@mui/material/Grid";
 import SalesOverview from "./SalesOverview";
 import InventorySummary from "./InventorySummary";
 import PurchaseOverview from "./PurchaseOverview";

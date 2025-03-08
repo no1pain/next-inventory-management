@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, CardContent, Typography, Box } from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2";
+import Grid from "@mui/material/Grid";
 import { InventorySummaryProps } from "./types";
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
